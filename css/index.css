@@ -1,0 +1,84 @@
+html {
+  font-size: 16px;
+}
+
+.contents-width, .header--inner, .main {
+  max-width: 1200px;
+}
+
+.centerd, .header--inner, .main {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.font-xl {
+  font-size: 2.5rem;
+}
+
+.font-l, .cart {
+  font-size: 1.875rem;
+}
+
+.font-m, .title {
+  font-size: 1.5rem;
+}
+
+.font-s {
+  font-size: 1.125rem;
+}
+
+.font-xs {
+  font-size: 0.875rem;
+}
+
+#global-container {
+  width: 100%;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  background-color: wheat;
+}
+
+.header--left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background-color: blueviolet;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.header--right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  background-color: aqua;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.main {
+  padding-top: 100px;
+}
+
+.test {
+  font-size: 3.75rem;
+}
+/*# sourceMappingURL=index.css.map */

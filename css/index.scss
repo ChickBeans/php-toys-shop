@@ -1,0 +1,75 @@
+$baseFontSize: 16;
+html {
+  font-size: $baseFontSize + px;
+}
+
+@function rem($pixels) {
+  @return $pixels / $baseFontSize * 1rem;
+}
+
+.contents-width {
+  max-width: 1200px;
+}
+
+.centerd {
+  margin: 0 auto;
+  text-align: center;
+}
+.font-xl {
+  font-size: rem(40);
+}
+.font-l {
+  font-size: rem(30);
+}
+.font-m {
+  font-size: rem(24);
+}
+.font-s {
+  font-size: rem(18);
+}
+.font-xs {
+  font-size: rem(14);
+}
+
+#global-container {
+  width: 100%;
+}
+.header {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  background-color: wheat;
+  &--inner {
+    @extend .contents-width;
+    @extend .centerd;
+  }
+  &--left {
+    display: flex;
+    flex: 1;
+    background-color: blueviolet;
+    align-items: center;
+    justify-content: center;
+  }
+  &--right {
+    display: flex;
+    flex: 2;
+    background-color: aqua;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.title {
+  @extend .font-m;
+}
+.main {
+  @extend .contents-width;
+  @extend .centerd;
+  padding-top: 100px;
+}
+
+.test {
+  font-size: rem(60);
+}
+.cart {
+  @extend .font-l;
+}

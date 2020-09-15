@@ -1,0 +1,136 @@
+$baseFontSize: 16;
+html {
+  font-size: $baseFontSize + px;
+}
+
+@function rem($pixels) {
+  @return $pixels / $baseFontSize * 1rem;
+}
+
+.contents-width {
+  max-width: 1200px;
+}
+
+.centerd {
+  margin: 0 auto;
+  text-align: center;
+}
+.font-xl {
+  font-size: rem(40);
+}
+.font-l {
+  font-size: rem(30);
+}
+.font-m {
+  font-size: rem(24);
+}
+.font-s {
+  font-size: rem(18);
+}
+.font-xs {
+  font-size: rem(14);
+}
+
+.mb-l {
+  margin-bottom: rem(30);
+}
+.mb-m {
+  margin-bottom: rem(20);
+}
+.mb-s {
+  margin-bottom: rem(10);
+}
+p {
+  @extend .font-s;
+  // margin: 0;
+}
+h3 {
+  @extend .font-m;
+}
+h2 {
+  @extend .font-l;
+}
+
+#global-container {
+  width: 100%;
+}
+.header {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100px;
+  background-color: wheat;
+  align-items: center;
+  &--inner {
+    // display: flex;
+    @extend .contents-width;
+    @extend .centerd;
+  }
+}
+.main {
+  @extend .contents-width;
+  @extend .centerd;
+  padding-top: 150px;
+}
+
+.test {
+  font-size: rem(60);
+}
+.cart {
+  @extend .font-l;
+}
+
+.pro {
+  &--form {
+    @extend .centerd;
+  }
+  &--name {
+    width: rem(200);
+    
+    &::focus {
+      border-color: 1px blue solid;
+    }
+  }
+  &--pass {
+    width: rem(100);
+    border-radius: 5px;
+    &::focus {
+      border-color: 1px blue solid;
+    }
+  }
+  &--input {
+    @extend .mb-s;
+    @extend .centerd;
+    display: block;
+    padding: 5px 0;
+    border-radius: 5px;
+  }
+  &--list {
+    @extend .centerd;
+  }
+  &--price {
+    width: 80px;
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 5px 10px;
+  width: rem(50);
+  height: rem(40);
+  margin-top: 15px;
+  &--wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.error {
+  @extend .font-m;
+  color: red;
+}
+
+th,
+td {
+  padding: rem(20);
+}
