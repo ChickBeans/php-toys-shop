@@ -6,12 +6,12 @@ html {
   max-width: 1200px;
 }
 
-.centerd, .header--inner, .main, .staff--form, .staff--input, .staff--list, .button--link, .button--logout {
+.centerd, .header--inner, .main, .staff--form, .staff--input, .staff--list {
   margin: 0 auto;
   text-align: center;
 }
 
-.font-xl {
+.font-xl, .aaaa {
   font-size: 2.5rem;
 }
 
@@ -19,7 +19,7 @@ html {
   font-size: 1.875rem;
 }
 
-.font-m, h3, .button--link, .button--logout, .error, .login-staff--name {
+.font-m, h3, .button--link, .error {
   font-size: 1.5rem;
 }
 
@@ -35,11 +35,11 @@ html {
   margin-bottom: 1.875rem;
 }
 
-.mb-m, .button--link:nth-of-type(1) {
+.mb-m {
   margin-bottom: 1.25rem;
 }
 
-.mb-s, .staff--input, .login-staff--name {
+.mb-s, .staff--input {
   margin-bottom: 0.625rem;
 }
 
@@ -105,25 +105,16 @@ html {
 }
 
 .button--link {
-  width: 250px;
-  height: 80px;
-  line-height: 60px;
   display: block;
   padding: 5px 10px;
   font-weight: 600;
   border: 1px black solid;
-  background-color: #cccccc;
+  background-color: grey;
+  color: black;
 }
 
 .button--link::hover {
   text-decoration: none;
-  color: black;
-}
-
-.button--logout {
-  width: 50px;
-  border: 1px black solid;
-  background-color: #cccccc;
 }
 
 .error {
@@ -135,8 +126,7 @@ td {
   padding: 1.25rem;
 }
 
-.login-staff--name {
-  display: block;
-  color: #ac3939;
+.test {
+  color: aqua;
 }
-/*# sourceMappingURL=staff.css.map */
+/*# sourceMappingURL=staff_login.css.map */

@@ -1,25 +1,22 @@
 <?php
 session_start();
+session_regenerate_id(true);
+
 require('../common/dbconnect.php');
+require_once('../common/common.php');
 
-$staff_id = $_POST['staff_id'];
-$staff_name = $_POST['staff_name'];
-$staff_pass = $_POST['staff_pass'];
-$staff_pass2 = $_POST['staff_pass2'];
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
+}
 
-$staff_id = htmlspecialchars($staff_id, ENT_QUOTES, 'UTF-8');
-$staff_name = htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8');
-$staff_pass = htmlspecialchars($staff_pass, ENT_QUOTES, 'UTF-8');
-$staff_pass2 = htmlspecialchars($staff_pass2, ENT_QUOTES, 'UTF-8');
-
-var_dump($staff_id, $staff_name, $staff_pass);
-// // オリジナルのパスワードを情報を取り出す
-// $stmt = $db->prepare('SELECT password FROM mst_staff WHERE id=?');
-// $stmt->execute(array(
-//   $staff_id
-// ));
-// $rec = $stmt->fetch();
-
+$post = sanitize($_POST);
+$staff_id = $post['staff_id'];
+$staff_name = $post['staff_name'];
+$staff_pass = $post['staff_pass'];
+$staff_pass2 = $post['staff_pass2'];
 
 // エラーチェック
 if ($staff_name === '') {
@@ -31,11 +28,6 @@ if ($rec['password'])
   }
 if ($staff_pass !== $staff_pass2) {
   $error['pass'] = 'different';
-}
-
-// セッション変数staff_editに入力情報を保存
-if (empty($error)) {
-  $_SESSION['staff_edit'] = $_POST;
 }
 
 ?>
@@ -73,6 +65,7 @@ if (empty($error)) {
           <input type="button" onclick="history.back()" value="戻る">
           <!-- エラーが存在しない場合 -->
         <?php else : ?>
+          <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
           <form method="post" action="./staff_edit_done.php">
             <p>スタッフ名：<?php echo $staff_name ?></p>
             <input type="hidden" name="staff_id" value="<?php echo $staff_id ?>">
@@ -83,7 +76,7 @@ if (empty($error)) {
           </form>
         <?php endif ?>
       </main>
-      
+
       <footer class="footer">
         <div class="footer--inner">
         </div>

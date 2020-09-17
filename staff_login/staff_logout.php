@@ -1,13 +1,10 @@
 <?php
-session_start();
-session_regenerate_id(true);
-
-// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
-if (!isset($_SESSION['staff_login'])) {
-  $error['staff_login'] = 'failed';
-  header('Location: ../staff_login/staff_login.html');
-  exit();
-}
+  session_start();
+  $_SESSION = array();
+  if (isset($_COOKIE[session_name()]) == true) {
+    setcookie(session_name(), '', time()-42000, '/');
+  }
+  session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,8 +26,8 @@ if (!isset($_SESSION['staff_login'])) {
         </div>
       </header>
       <main class="main">
-        <p>スタッフが選択されていません。</p>
-        <a href="staff_list.php">戻る</a>
+        <p>ログアウトしました</p>
+        <a class="button--link" href="../staff_login/staff_login.html">ログイン画面へ</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

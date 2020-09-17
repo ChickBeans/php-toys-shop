@@ -1,3 +1,12 @@
+<?php
+session_start();
+session_regenerate_id(true);
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+    header('Location: ../staff_login/staff_login.html');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +28,7 @@
             </header>
             <main class="main">
                 <h3>スタッフ管理</h3>
+                <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
                 <form class="staff--form" action="staff_add_check.php" method="post">
                     <p class="staff--sub">・スタッフ名を入力してください</p>
                     <input class="staff--input staff--name" type="text" name="staff_name">
@@ -39,4 +49,5 @@
         </div>
     </div>
 </body>
+
 </html>

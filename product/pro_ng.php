@@ -1,3 +1,15 @@
+<?php
+session_start();
+session_regenerate_id(true);
+
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

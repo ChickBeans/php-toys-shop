@@ -3,31 +3,31 @@ session_start();
 session_regenerate_id(true);
 
 require('../common/dbconnect.php');
-require_once('../common/common.php');
 
-$post = sanitize($_POST);
+$pro_id = $_POST['pro_id'];
+$pro_name = $_POST['pro_name'];
+// DBに登録されている画像名
+$pro_picture_name = $_POST['pro_picture_name'];
 
-$pro_name = $post['pro_name'];
-$pro_price = $post['pro_price'];
-$pro_picture_name = $post['pro_picture_name'];
+$pro_id = htmlspecialchars($pro_id, ENT_QUOTES, 'UTF-8');
+$pro_name = htmlspecialchars($pro_name, ENT_QUOTES, 'UTF-8');
 
 // staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
 if (!isset($_SESSION['staff_login'])) {
   $error['staff_login'] = 'failed';
   header('Location: ../staff_login/staff_login.html');
   exit();
+} else {
+  // 画面に表示されているユーザーのデータを修正
+  $stmt = $db->prepare('DELETE FROM mst_product WHERE id=?');
+  $stmt->execute(array(
+    $pro_id
+  ));
 }
 
-if (!isset($pro_name) && !isset($pro_price)) {
-  header('Location: pro_add.php');
-  exit();
-} else {
-  $stmt = $db->prepare('INSERT INTO mst_product SET name=?, price=?, picture=?');
-  $stmt->execute(array(
-    $pro_name,
-    $pro_price,
-    $pro_picture_name
-  ));
+// DB内に画像が存在した場合にローカルの方からも削除する
+if ($pro_picture_name != '') {
+  unlink('./picture/' . $pro_picture_name);
 }
 ?>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@ if (!isset($pro_name) && !isset($pro_price)) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="./css/normalize.css">
   <link rel="stylesheet" href="../css/product.css">
   <title>TOYS SHOP -admin-</title>
 </head>
@@ -51,7 +51,7 @@ if (!isset($pro_name) && !isset($pro_price)) {
       </header>
       <main class="main">
       <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
-        <p><?php echo $pro_name ?>　を登録致しました。</p>
+        <p>商品名：<?php echo $pro_name ?>のデータを削除致しました。</p>
         <a href="pro_list.php">戻る</a>
       </main>
       <footer class="footer">

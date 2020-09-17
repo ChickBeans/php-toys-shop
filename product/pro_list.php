@@ -1,7 +1,19 @@
 <?php
+session_start();
+session_regenerate_id(true);
+
+
 require('../common/dbconnect.php');
 
-$stmt = $db->query('SELECT id, name, price FROM mst_product;');
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
+} else {
+  // DB内の商品情報取得
+  $stmt = $db->query('SELECT id, name, price FROM mst_product;');
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +37,7 @@ $stmt = $db->query('SELECT id, name, price FROM mst_product;');
       </header>
       <main class="main">
         <h2>商品管理画面</h2>
+        <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
         <form method="post" action="pro_branch.php">
           <table border="1" class="pro--list">
             <tr>
@@ -36,7 +49,6 @@ $stmt = $db->query('SELECT id, name, price FROM mst_product;');
             <!-- DBから取得したデータを表示する -->
             <?php while (true) {
               $rec = $stmt->fetch();
-              var_dump($rec['id']);
               // 値が取得できなくなった場合→処理をやめる
               if ($rec === false) {
                 break;
@@ -57,6 +69,8 @@ $stmt = $db->query('SELECT id, name, price FROM mst_product;');
           <input class="button pro--button__edit" type="submit" name="pro_edit" value="修正">
           <input class="button pro--button__edit" type="submit" name="pro_delete" value="削除">
         </form>
+        <a class="button--logout" href="staff_logout.php">ログアウト</a>
+        <a class="button--logout" href="../staff_login/staff_top.php">トップ画面へ</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

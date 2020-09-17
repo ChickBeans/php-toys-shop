@@ -1,4 +1,15 @@
 <?php
+session_start();
+session_regenerate_id(true);
+
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
+}
+
+// スタッフが選択されている場合
 if (!isset($_POST['staff_id'])) {
   if (isset($_POST['staff_add'])) {
     header('Location: staff_add.php?staff_id=' . $staff_id);
@@ -8,6 +19,9 @@ if (!isset($_POST['staff_id'])) {
   exit();
 } else {
   $staff_id = $_POST['staff_id'];
+  if (isset($_POST['staff_add'])) {
+    $error['staff_add'] = 'selected';
+  }
   if (isset($_POST['staff_disp'])) {
     header('Location: staff_disp.php?staff_id=' . $staff_id);
     exit();
@@ -43,6 +57,11 @@ if (!isset($_POST['staff_id'])) {
         </div>
       </header>
       <main class="main">
+
+        <?php if ($error['staff_add'] === 'selected') : ?>
+          <p class="error">※スタッフを選択せずに「追加」ボタンを押下してください。</p>
+          <input class="button staff--button__back" type="button" onclick="history.back()" value="戻る">
+        <?php endif ?>
       </main>
       <footer class="footer">
         <div class="footer--inner">

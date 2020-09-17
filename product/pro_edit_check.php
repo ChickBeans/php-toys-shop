@@ -1,46 +1,51 @@
 <?php
-session_start();
-session_regenerate_id(true);
 
+session_start();
+require('../common/dbconnect.php');
 require_once('../common/common.php');
 
-$post = sanitize($_POST);
-$pro_name = $post['pro_name'];
-$pro_price = $post['pro_price'];
-$pro_picture = $_FILES['pro_picture'];
+try {
 
-// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
-if (!isset($_SESSION['staff_login'])) {
-  $error['staff_login'] = 'failed';
-  header('Location: ../staff_login/staff_login.html');
-  exit();
-}
-// エラーチェック
-if ($pro_name === '') {
-  $error['name'] = 'blank';
-}
-if ($pro_price === '') {
-  $error['price'] = 'blank';
-}
-// 半角数字のみ
-if (preg_match('/\A[0-9]+\z/', $pro_price) == 0) {
-  $error['price'] = 'irregular';
-}
-// 画像チェック
-if ($pro_picture['size'] > 0) {
-  if ($pro_picture['size'] > 10000000) {
-    $error['picture'] = 'capacity';
-  } else {
-    move_uploaded_file($pro_picture['tmp_name'], './picture/' . $pro_picture['name']);
+  $post = sanitize($_POST);
+
+  $pro_id = $post['pro_id'];
+  $pro_name = $post['pro_name'];
+  $pro_price = $post['pro_price'];
+  $pro_picture_name_old = $post['pro_picture_name_old'];
+  $pro_picture = $_FILES['pro_picture'];
+
+  // エラーチェック
+  if ($pro_name === '') {
+    $error['name'] = 'blank';
   }
-}
-// ファイルの拡張子チェック
-$ext = substr($pro_picture['name'], -3);
-if ($ext != 'jpg' && $ext != 'jpeg' && $ext != 'png') {
-  $error['picture'] = 'type';
-}
-?>
+  if ($pro_price === '') {
+    $error['price'] = 'blank';
+  }
+  // 半角数字のみ
+  if (preg_match('/\A[0-9]+\z/', $pro_price) == 0) {
+    $error['price'] = 'irregular';
+  }
 
+  // 画像チェック
+  if ($pro_picture['size'] > 0) {
+    if ($pro_picture['size'] > 10000000) {
+      $error['picture'] = 'capacity';
+    } else {
+      move_uploaded_file($pro_picture['tmp_name'], './picture/' . $pro_picture['name']);
+    }
+  }
+  // ファイルの拡張子チェック
+  $ext = substr($pro_picture['name'], -3);
+  if ($ext != 'jpg' && $ext != 'jpeg' && $ext != 'png') {
+    $error['picture'] = 'type';
+  }
+
+  var_dump($error['image']);
+} catch (Exception $e) {
+  echo 'エラー：' . $e->getMessage();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,7 +69,7 @@ if ($ext != 'jpg' && $ext != 'jpeg' && $ext != 'png') {
         <?php if (!empty($error)) : ?>
           <!-- エラーメッセージを表示する -->
           <?php if ($error['name'] === 'blank') : ?>
-            <p class="error">※商品名が入力されていません</p>
+            <p class="error">※スタッフ名が入力されていません</p>
           <?php endif  ?>
           <?php if ($error['price'] === 'blank') : ?>
             <p class="error">※価格が入力されていません</p>
@@ -82,17 +87,20 @@ if ($ext != 'jpg' && $ext != 'jpeg' && $ext != 'png') {
           <!-- エラーが存在しない場合 -->
         <?php else : ?>
           <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
-          <p>商品名：<?php echo $pro_name ?>を追加します。</p>
-          <img src="<?php echo './picture/' . $pro_picture['name'] ?>">
-          <form method="post" action="./pro_add_done.php">
+          <form method="post" action="./pro_edit_done.php">
+            <p>商品名：<?php echo $pro_name ?>に変更致します</p>
+            <p>価格：<?php echo $pro_price ?>円に変更致します</p>
+            <input type="hidden" name="pro_id" value="<?php echo $pro_id ?>">
             <input type="hidden" name="pro_name" value="<?php echo $pro_name ?>">
             <input type="hidden" name="pro_price" value="<?php echo $pro_price ?>">
+            <input type="hidden" name="pro_picture_name_old" value="<?php echo $pro_picture_name_old ?>">
             <input type="hidden" name="pro_picture_name" value="<?php echo $pro_picture['name'] ?>">
             <input class="button pro--button__back" type="button" onclick="history.back()" value="戻る">
             <input class="button pro--button__submit" type="submit" value="OK">
           </form>
         <?php endif ?>
       </main>
+
       <footer class="footer">
         <div class="footer--inner">
         </div>

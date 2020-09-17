@@ -1,29 +1,29 @@
 <?php
 session_start();
+session_regenerate_id(true);
+
 require('../common/dbconnect.php');
+require_once('../common/common.php');
 
-var_dump($_POST);
+$post = sanitize($_POST);
+$staff_id = $post['staff_id'];
+$staff_name = $post['staff_name'];
+$staff_pass = $post['staff_pass'];
+$staff_pass2 = $post['staff_pass2'];
 
-$staff_id = $_POST['staff_id'];
-$staff_name = $_POST['staff_name'];
-$staff_pass = $_POST['staff_pass'];
-$staff_pass2 = $_POST['staff_pass2'];
-
-$staff_id = htmlspecialchars($staff_id, ENT_QUOTES, 'UTF-8');
-$staff_name = htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8');
-$staff_pass = htmlspecialchars($staff_pass, ENT_QUOTES, 'UTF-8');
-$staff_pass2 = htmlspecialchars($staff_pass2, ENT_QUOTES, 'UTF-8');
-
-if (!isset($_SESSION['staff_edit'])) {
-  header('Location: staff_add.php');
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
 } else {
-// 画面に表示されているユーザーのデータを修正
-$stmt = $db->prepare('UPDATE mst_staff SET name=?, password=? WHERE id=?');
-$stmt->execute(array(
-  $staff_name,
-  $staff_pass,
-  $staff_id
-));
+  // 画面に表示されているユーザーのデータを修正
+  $stmt = $db->prepare('UPDATE mst_staff SET name=?, password=? WHERE id=?');
+  $stmt->execute(array(
+    $staff_name,
+    md5($staff_pass),
+    $staff_id
+  ));
 }
 ?>
 <!DOCTYPE html>
@@ -46,14 +46,9 @@ $stmt->execute(array(
         </div>
       </header>
       <main class="main">
-      <p>スタッフ名：<?php echo $staff_name ?>様の情報を修正致しました。</p>
+      <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
+        <p>スタッフ名：<?php echo $staff_name ?>様の情報を修正致しました。</p>
         <a href="staff_list.php">戻る</a>
-        <?php
-        // // 再登録防止の為、セッション内容を破棄するここうまく行ってない…
-        // unset($_SESSION['join']);
-        // exit();
-        // // exit();
-        ?>
       </main>
       <footer class="footer">
         <div class="footer--inner">

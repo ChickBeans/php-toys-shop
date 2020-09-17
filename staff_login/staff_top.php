@@ -1,12 +1,9 @@
 <?php
 session_start();
 session_regenerate_id(true);
-
-// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+// staff_login_checkでセッション変数が登録されていない場合
 if (!isset($_SESSION['staff_login'])) {
   $error['staff_login'] = 'failed';
-  header('Location: ../staff_login/staff_login.html');
-  exit();
 }
 ?>
 <!DOCTYPE html>
@@ -29,8 +26,16 @@ if (!isset($_SESSION['staff_login'])) {
         </div>
       </header>
       <main class="main">
-        <p>スタッフが選択されていません。</p>
-        <a href="staff_list.php">戻る</a>
+        <?php if (!empty($error)) : ?>
+          <p class="error">＊ログインに失敗しました。</p>
+          <a class="button--link" href="../staff_login/staff_login.html">ログイン画面へ</a>
+          <?php exit(); ?>
+        <?php else : ?>
+          <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
+          <a class="button--link" href="../staff/staff_list.php">スタッフ管理へ</a>
+          <a class="button--link" href="../product/pro_list.php">商品管理へ</a>
+          <a class="button--logout" href="staff_logout.php">ログアウト</a>
+        <?php endif ?>
       </main>
       <footer class="footer">
         <div class="footer--inner">

@@ -1,8 +1,9 @@
 <?php
 session_start();
-require('../common/dbconnect.php');
+session_regenerate_id(true);
+// staff_login_checkでセッション変数が登録されていない場合
 
-var_dump($_POST);
+require('../common/dbconnect.php');
 
 $staff_id = $_POST['staff_id'];
 $staff_name = $_POST['staff_name'];
@@ -10,14 +11,15 @@ $staff_name = $_POST['staff_name'];
 $staff_id = htmlspecialchars($staff_id, ENT_QUOTES, 'UTF-8');
 $staff_name = htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8');
 
-if (!isset($_SESSION['staff_edit'])) {
-  header('Location: staff_add.php');
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: staff_delete.php');
 } else {
-// 画面に表示されているユーザーのデータを修正
-$stmt = $db->prepare('DELETE FROM mst_staff WHERE id=?');
-$stmt->execute(array(
-  $staff_id
-));
+  // 画面に表示されているユーザーのデータを修正
+  $stmt = $db->prepare('DELETE FROM mst_staff WHERE id=?');
+  $stmt->execute(array(
+    $staff_id
+  ));
 }
 ?>
 <!DOCTYPE html>
@@ -40,8 +42,9 @@ $stmt->execute(array(
         </div>
       </header>
       <main class="main">
-      <p>スタッフ名：<?php echo $staff_name ?>様をデータから削除致しました。</p>
-        <a href="staff_list.php">戻る</a>
+          <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
+          <p>スタッフ名：<?php echo $staff_name ?>様をデータから削除致しました。</p>
+          <a href="staff_list.php">戻る</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

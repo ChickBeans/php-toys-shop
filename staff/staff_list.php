@@ -1,7 +1,17 @@
 <?php
+session_start();
+session_regenerate_id(true);
+
 require('../common/dbconnect.php');
 
-$stmt = $db->query('SELECT id, name FROM mst_staff;');
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  $error['staff_login'] = 'failed';
+  header('Location: ../staff_login/staff_login.html');
+  exit();
+} else {
+  $stmt = $db->query('SELECT id, name FROM mst_staff;');
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +35,7 @@ $stmt = $db->query('SELECT id, name FROM mst_staff;');
       </header>
       <main class="main">
         <h2>スタッフ一覧</h2>
+        <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
         <form method="post" action="staff_branch.php">
           <table border="1" class="staff--list">
             <tr>
@@ -34,7 +45,6 @@ $stmt = $db->query('SELECT id, name FROM mst_staff;');
             </tr>
             <?php while (true) {
               $rec = $stmt->fetch();
-              var_dump($rec['id']);
               // 値が取得できなくなった場合→処理をやめる
               if ($rec === false) {
                 break;
@@ -52,7 +62,9 @@ $stmt = $db->query('SELECT id, name FROM mst_staff;');
           <input class="button staff--button__edit" type="submit" name="staff_disp" value="参照">
           <input class="button staff--button__edit" type="submit" name="staff_add" value="追加">
           <input class="button staff--button__edit" type="submit" name="staff_edit" value="修正">
-          <input class="button staff--button__edit" type="submit" name="staff_delete" value="削除">
+          <input class="button staff--button__edit" type="submit" name="staff_delete" value="削除">          
+          <a class="button--logout" href="staff_logout.php">ログアウト</a>
+          <a class="button--logout" href="../staff_login/staff_top.php">トップ画面へ</a>
         </form>
       </main>
       <footer class="footer">

@@ -1,14 +1,24 @@
 <?php
 session_start();
+session_regenerate_id(true);
 require('../common/dbconnect.php');
+require_once('../common/common.php');
 
-if (!isset($_SESSION['staff_join'])) {
-  header('Location: staff_add.php');
+$staff_name = $_POST['staff_name'];
+$staff_pass = $_POST['staff_pass'];
+$staff_name = htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8');
+$staff_pass = htmlspecialchars($staff_pass, ENT_QUOTES, 'UTF-8');
+
+// staff_login_checkでセッション変数が登録されていない場合、ログインが面へ移行する
+if (!isset($_SESSION['staff_login'])) {
+  header('Location: ../staff_login/staff_login.html');
+  exit();
 } else {
+  // スタッフを追加する
   $stmt = $db->prepare('INSERT INTO mst_staff SET name=?, password=?');
   $stmt->execute(array(
-    $_SESSION['staff_join']['staff_name'],
-    md5($_SESSION['staff_join']['staff_pass'])
+    $staff_name,
+    md5($staff_pass)
   ));
 }
 ?>
@@ -32,13 +42,14 @@ if (!isset($_SESSION['staff_join'])) {
         </div>
       </header>
       <main class="main">
-        <p><?php echo $_SESSION['staff_join']['staff_name'] ?>　を登録致しました。</p>
+        <span class="login-staff--name"><?php echo $_SESSION['staff_login']['name'] ?>様　ログイン中</span>
+        <p><?php echo $staff_name ?>　を登録致しました。</p>
         <a href="staff_list.php">戻る</a>
         <?php
-        // 再登録防止の為、セッション内容を破棄するここうまく行ってない…
-        unset($_SESSION['join']);
-        exit();
+        // // 再登録防止の為、セッション内容を破棄するここうまく行ってない…
+        // unset($_SESSION['staff_login']);
         // exit();
+        // // exit();
         ?>
       </main>
       <footer class="footer">
