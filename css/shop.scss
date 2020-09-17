@@ -72,4 +72,26 @@ html {
 }
 .cart {
   @extend .font-l;
+  &--button {
+    background-color: #E5E5E5;
+    padding: 20px;
+  }
+}
+.button {
+  &--wrapper {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.pro {
+  &-image {
+    width: 100%;
+    &--wrapper {
+      @extend .centerd;
+      width: 60%;
+    }
+  }
 }

@@ -1,12 +1,20 @@
+<?php
+  session_start();
+  $_SESSION = array();
+  if (isset($_COOKIE[session_name()]) == true) {
+    setcookie(session_name(), '', time()-42000, '/');
+  }
+  session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/normalize.css">
-  <link rel="stylesheet" href="./css/index.css">
-  <title>TOYS SHOP</title>
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/staff.css">
+  <title>TOYS SHOP -admin-</title>
 </head>
 
 <body>
@@ -14,17 +22,11 @@
     <div id="container">
       <header class="header">
         <div class="header--inner">
-          <div class="header--left">
-            <h3 class="title">TOYS SHOP</h3>
-          </div>
-          <div class="header--right">
-            <a class="cart" href="cart_look.php">👜</a>
-          </div>
+          <h2 class="title">TOYS SHOP</h2>
         </div>
       </header>
       <main class="main">
-        <div class="contents">
-        </div>
+        <p>カートを空にしました</p>
       </main>
       <footer class="footer">
         <div class="footer--inner">
