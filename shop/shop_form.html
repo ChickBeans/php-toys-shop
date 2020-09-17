@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/shop.css">
+  <title>TOYS SHOP -admin-</title>
+</head>
+
+<body>
+  <div id="global-container">
+    <div id="container">
+      <header class="header">
+        <div class="header--inner">
+          <h2 class="title">TOYS SHOP</h2>
+        </div>
+      </header>
+      <main class="main">
+        <p>お客様情報を入力してください</p>
+        <form method="post" action="shop_form_check.php">
+          <p>お名前</p>
+          <input class="shop--input" type="text" name="name">
+          <p>メールアドレス</p>
+          <input class="shop--input" type="text" name="email">
+          <p>郵便番号</p>
+          <input class="shop--input postal1" type="text" name="postal1">
+          -
+          <input class="shop--input postal2" type="text" name="postal2">
+          <p>住所</p>
+          <input class="shop--input address" type="text" name="address">
+          <p>電話番号</p>
+          <input class="shop--input tel" type="text" name="tel">
+          <div class="button-wrapper">
+            <input type="button" onclick="history.back()" value="戻る">
+            <input type="submit" value="OK">
+          </div>
+        </form>
+      </main>
+      <footer class="footer">
+        <div class="footer--inner">
+        </div>
+      </footer>
+    </div>
+  </div>
+
+</body>
+
+</html>

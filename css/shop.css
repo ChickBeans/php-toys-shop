@@ -31,6 +31,18 @@ html {
   font-size: 0.875rem;
 }
 
+.mb-l {
+  margin-bottom: 1.875rem;
+}
+
+.mb-m, .shop--input {
+  margin-bottom: 1.25rem;
+}
+
+.mb-s {
+  margin-bottom: 0.625rem;
+}
+
 #global-container {
   width: 100%;
 }
@@ -42,36 +54,17 @@ html {
   background-color: wheat;
 }
 
-.header--left {
+.header--inner {
+  height: 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  background-color: blueviolet;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
-
-.header--right {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
-  background-color: aqua;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 
 .main {
@@ -106,5 +99,28 @@ html {
 
 .pro-image--wrapper {
   width: 60%;
+}
+
+.shop--input {
+  display: inline-block;
+  width: 200px;
+  border-radius: 5px;
+  border: solid 1px black;
+}
+
+.shop--input.postal1 {
+  width: 50px;
+}
+
+.shop--input.postal2 {
+  width: 80px;
+}
+
+.shop--input.address {
+  width: 200px;
+}
+
+.shop--input.tel {
+  width: 150px;
 }
 /*# sourceMappingURL=shop.css.map */

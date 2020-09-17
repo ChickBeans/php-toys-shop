@@ -91,6 +91,7 @@ if (isset($_SESSION['cart'])) {
             <input type="submit" value="数量変更">
           </div>
         </form>
+        <a href="shop_form.html">ご購入手続きへ進む</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

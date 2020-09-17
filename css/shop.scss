@@ -31,6 +31,16 @@ html {
   font-size: rem(14);
 }
 
+.mb-l {
+  margin-bottom: rem(30);
+}
+.mb-m {
+  margin-bottom: rem(20);
+}
+.mb-s {
+  margin-bottom: rem(10);
+}
+
 #global-container {
   width: 100%;
 }
@@ -42,21 +52,25 @@ html {
   &--inner {
     @extend .contents-width;
     @extend .centerd;
-  }
-  &--left {
+    height: 100px;
     display: flex;
-    flex: 1;
-    background-color: blueviolet;
     align-items: center;
     justify-content: center;
   }
-  &--right {
-    display: flex;
-    flex: 2;
-    background-color: aqua;
-    align-items: center;
-    justify-content: space-between;
-  }
+  // &--left {
+  //   display: flex;
+  //   flex: 1;
+  //   background-color: blueviolet;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+  // &--right {
+  //   display: flex;
+  //   flex: 2;
+  //   background-color: aqua;
+  //   align-items: center;
+  //   justify-content: space-between;
+  // }
 }
 .title {
   @extend .font-m;
@@ -93,5 +107,25 @@ html {
       @extend .centerd;
       width: 60%;
     }
+  }
+}
+
+.shop--input {
+  display: inline-block;
+  width: 200px;
+  border-radius: 5px;
+  border: solid 1px black;
+  @extend .mb-m;
+  &.postal1 {
+    width: 50px;
+  }
+  &.postal2 {
+    width: 80px;
+  }
+  &.address{
+    width: 200px;
+  }
+  &.tel {
+    width: 150px;
   }
 }
