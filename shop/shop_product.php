@@ -41,7 +41,7 @@ $rec = $stmt->fetch();
           <a href="member_logout.php">会員ログアウト</a>
         <?php else : ?>
           <span>ゲスト様</span>
-          <a href="member_login.php">会員ログイン</a>
+          <a href="member_login.html">会員ログイン</a>
         <?php endif ?>
         <p>商品ID：<?php echo $rec['id'] ?></p>
         <p>商品名：<?php echo $rec['name'] ?></p>

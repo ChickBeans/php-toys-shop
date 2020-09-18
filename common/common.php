@@ -8,6 +8,7 @@ function sanitize($before)
   return $after;
 }
 
+// セッションを削除する。
 function clearSession($session)
 {
   session_start();
@@ -53,6 +54,16 @@ function clearSession($session)
       <?php else : ?>
         <option value="<?php echo $i ?>"><?php echo $i ?></option>
       <?php endif ?>
+    <?php endfor ?>
+  </select>
+<?php } ?>
+
+<!-- 生まれた年代のプルダウンを作成 -->
+<?php function create_pulldown_birth()
+{ ?>
+  <select name="birth">
+    <?php for ($i = 1920; $i <= 2020; $i += 10) : ?>
+        <option value="<?php echo $i ?>"><?php echo $i ?></option>
     <?php endfor ?>
   </select>
 <?php } ?>

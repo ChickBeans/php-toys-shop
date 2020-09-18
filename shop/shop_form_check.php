@@ -13,6 +13,12 @@ $postal2 = $post['postal2'];
 $address = $post['address'];
 $tel = $post['tel'];
 
+$order = $post['order'];
+$pass = $post['pass'];
+$pass2 = $post['pass2'];
+$gender = $post['gender'];
+$birth = $post['birth'];
+
 // エラーチェック
 if ($post['name'] === '') {
   $error['name'] = 'blank';
@@ -33,6 +39,21 @@ if ($address === '') {
 if (preg_match('/\A\d{2,5}-?\d{2,5}-?\d{4,5}\z/', $tel) === 0) {
   $error['tel'] = 'regex';
 }
+
+// exit();
+// 会員登録を望む場合
+if ($order === 'order_reg') {
+  if ($pass === '') {
+    $error['pass'] = 'blank';
+  }
+  if ($pass !== $pass2) {
+    $error['pass'] = 'different';
+  }
+  if (strlen($pass) < 6) {
+    $error['pass'] = 'length';
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,6 +91,15 @@ if (preg_match('/\A\d{2,5}-?\d{2,5}-?\d{4,5}\z/', $tel) === 0) {
           <?php if ($error['tel'] === 'regex') : ?>
             <p class="error">※電話番号を正しく入力してください</p>
           <?php endif ?>
+          <?php if ($error['pass'] === 'blank') : ?>
+            <p class="error">※パスワードを入力してください</p>
+          <?php endif ?>
+          <?php if ($error['pass'] === 'different') : ?>
+            <p class="error">※入力されたパスワードが一致しません</p>
+          <?php endif ?>
+          <?php if ($error['pass'] === 'length') : ?>
+            <p class="error">※パスワードは６文字以上で設定してください。</p>
+          <?php endif ?>
           <input type="button" onclick="history.back()" value="戻る">
         <?php else : ?>
           <form method="post" action="shop_form_done.php">
@@ -84,6 +114,19 @@ if (preg_match('/\A\d{2,5}-?\d{2,5}-?\d{4,5}\z/', $tel) === 0) {
             <input class="shop--input address" type="hidden" name="address" value="<?php echo $address ?>">
             <p>電話番号：<?php echo $tel ?></p>
             <input class="shop--input tel" type="hidden" name="tel" value="<?php echo $tel ?>">
+
+            <?php if ($gender === '0') : ?>
+              <p>性別：男性</p>
+              <input class="shop--input gender" type="hidden" name="gender" value="<?php echo $gender ?>">
+            <?php else : ?>
+              <p>性別：女性</p>
+              <input class="shop--input gender" type="hidden" name="gender" value="<?php echo $gender ?>">
+            <?php endif ?>
+            <p>生まれ年：<?php echo $birth ?>年代</p>
+            <input class="shop--input birth" type="hidden" name="birth" value="<?php echo $birth ?>">
+            <input class="shop--input name" type="hidden" name="name" value="<?php echo $name ?>">
+            <input class="shop--input pass" type="hidden" name="pass" value="<?php echo $pass ?>">
+            <input class="shop--input order" type="hidden" name="order" value="<?php echo $order ?>">
             <div class="button-wrapper">
               <input type="button" onclick="history.back()" value="戻る">
               <input type="submit" value="OK">

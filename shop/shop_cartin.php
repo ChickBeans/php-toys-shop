@@ -6,23 +6,25 @@ require('../common/dbconnect.php');
 
 // 個別のページを用意する
 $pro_id = htmlspecialchars($_GET['pro_id']);
+
 // カートに商品が存在する場合
 if (isset($_SESSION['cart'])) {
   // カートに商品を追加する
   $cart = $_SESSION['cart'];
   $pro_quantity = $_SESSION['pro_quantity'];
-
   // カートの重複チェック
   if (in_array($pro_id, $cart)) {
     $error['cart'] = 'deplicate';
-  } else {
-    $cart[] = $pro_id;
-    $pro_quantity[] = 1;
-    $_SESSION['cart'] = $cart;
-    $_SESSION['pro_quantity'] = $pro_quantity;
-  }
+  } 
 }
-?>
+if (empty($error)) {
+  // 今回選択した商品をカートに追加する
+  $cart[] = $pro_id;
+  $pro_quantity[] = 1;
+  $_SESSION['cart'] = $cart;
+  $_SESSION['pro_quantity'] = $pro_quantity;
+}
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 

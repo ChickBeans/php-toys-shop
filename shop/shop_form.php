@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_regenerate_id(true);
+require_once('../common/common.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +37,18 @@
           <input class="shop--input address" type="text" name="address">
           <p>電話番号</p>
           <input class="shop--input tel" type="text" name="tel">
+          <input type="radio" name="order" value="order_only" checked><span>今回だけの注文</span>
+          <input type="radio" name="order" value="order_reg"><span>会員登録しての注文</span>
+          <p>会員登録する方は以下の項目を入力してください</p>
+          <p>・パスワードを入力してください。</p>
+          <input class="staff--input staff--pass" type="password" name="pass">
+          <p>・パスワードをもう一度入力してください。</p>
+          <input class="staff--input staff--pass" type="password" name="pass2">
+          <p>性別</p>
+          <input type="radio" name="gender" value="0" checked><span>男性</span>
+          <input type="radio" name="gender" value="1"><span>女性</span>
+          <p>生まれ年</p>
+          <?php create_pulldown_birth() ?>年代
           <div class="button-wrapper">
             <input type="button" onclick="history.back()" value="戻る">
             <input type="submit" value="OK">

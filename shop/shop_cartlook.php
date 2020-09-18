@@ -6,10 +6,12 @@ require('../common/dbconnect.php');
 
 // カートにアイテムが存在する場合
 if (isset($_SESSION['cart'])) {
-
   $cart = $_SESSION['cart'];
   $pro_quantity = $_SESSION['pro_quantity'];
   $max = count($cart);
+
+  // var_dump($cart, $pro_quantity, $max);
+  // exit();
 
   foreach ($cart as $key => $id) {
     $stmt = $db->prepare('SELECT * FROM mst_product WHERE id=?');
@@ -29,6 +31,8 @@ if (isset($_SESSION['cart'])) {
     }
   }
 }
+
+var_dump($_SESSION['member_login']['name']);
 
 ?>
 
@@ -53,12 +57,12 @@ if (isset($_SESSION['cart'])) {
       </header>
       <main class="main">
         <h2>商品情報参照</h2>
-        <?php if (isset($_SESSION['member_login'])) : ?>
-          <span><?php echo $_SESSION['member_login']['member_name'] ?>様</span>
-          <a href="member_logout.php">会員ログアウト</a>
-        <?php else : ?>
+        <?php if (empty($_SESSION['member_login'])) : ?>
           <span>ゲスト様</span>
-          <a href="member_login.php">会員ログイン</a>
+          <a href="member_login.html">会員ログイン</a>
+          <?php else : ?>
+            <span><?php echo $_SESSION['member_login']['name'] ?>様</span>
+            <a href="member_logout.php">会員ログアウト</a>
         <?php endif ?>
 
         <!-- カート内に商品が存在する場合 -->
@@ -91,7 +95,13 @@ if (isset($_SESSION['cart'])) {
             <input type="submit" value="数量変更">
           </div>
         </form>
-        <a href="shop_form.html">ご購入手続きへ進む</a>
+        
+        <?php if (empty($_SESSION['member_login'])): ?>
+          <a href="shop_form.php">ご購入手続きへ進む</a>
+          <?php else: ?>
+            <a href="shop_easy_check.php">ご購入手続きへ進む</a>
+        <?php endif ?>
+        <a href="clear_cart.php">カートを空にする</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

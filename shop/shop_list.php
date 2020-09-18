@@ -34,7 +34,7 @@ $stmt = $db->query('SELECT * FROM mst_product;');
           <a href="member_logout.php">会員ログアウト</a>
         <?php else : ?>
           <span>ゲスト様</span>
-          <a href="member_login.php">会員ログイン</a>
+          <a href="member_login.html">会員ログイン</a>
         <?php endif ?>
         <table border="1" class="pro--list">
           <tr>
@@ -62,6 +62,7 @@ $stmt = $db->query('SELECT * FROM mst_product;');
           } ?>
         </table>
         <a href="shop_cartlook.php">カートを見る</a>
+        <a href="clear_cart.php">カートを空にする</a>
       </main>
       <footer class="footer">
         <div class="footer--inner">

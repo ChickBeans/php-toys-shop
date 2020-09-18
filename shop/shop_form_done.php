@@ -13,10 +13,17 @@ $postal1 = $post['postal1'];
 $postal2 = $post['postal2'];
 $address = $post['address'];
 $tel = $post['tel'];
+// 会員登録用
+$order = $post['order'];
+$pass = $post['pass'];
+$gender = $post['gender'];
+$birth = $post['birth'];
 
-$cart = $_SESSION['cart'];
-$pro_quantity = $_SESSION['pro_quantity'];
-$max = count($cart);
+if (isset($_SESSION['cart'])) {
+  $cart = $_SESSION['cart'];
+  $pro_quantity = $_SESSION['pro_quantity'];
+  $max = count($cart);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,14 +45,6 @@ $max = count($cart);
         </div>
       </header>
       <main class="main">
-        <p><?php echo $name ?>様</p>
-        <p>ご注文ありがとうございました</p>
-        <p><?php echo $email ?>にメールをお送りしましたのでご確認ください。</p>
-        <p>商品は以下の住所にお送りさせていただきます。</p>
-        <p><?php echo '〒 ' . $postal1 . '-' . $postal2 ?></p>
-        <p><?php echo $address ?></p>
-        <p><?php echo '☎ ' . $tel ?></p>
-
         <?php
         // メール本文を作成する
         $message = "";
@@ -76,10 +75,32 @@ $max = count($cart);
         // 登録処理が終了するまでデータベースに書き込み制限をかける
         $stmt = $db->query('LOCK TABLES dats_sales WRITE, dat_sales_product WRITE');
 
+        // 会員登録する場合、dat_membersテーブルに情報を登録する
+        $last_member_id = 0;
+        if ($order === 'order_reg') {
+          $stmt = $db->prepare('INSERT INTO dat_member SET password=?, name=?, email=?, postal1=?, postal2=?, address=?, tel=?, gender=?, birth=?');
+          $stmt->execute(array(
+            md5($pass),
+            $name,
+            $email,
+            $postal1,
+            $postal2,
+            $address,
+            $tel,
+            $gender,
+            $birth
+          ));
+
+          $stmt = $db->query('SELECT LAST_INSERT_ID()');
+          $rec = $stmt->fetch();
+          // 最後にdat_memberテーブルに書き込みをしたIDを取得
+          $last_member_id = $rec['LAST_INSERT_ID()'];
+        }
+
         // dat_salesテーブルに購入者情報を登録する
         $stmt = $db->prepare('INSERT INTO dat_sales SET member_id=?, name=?, email=?, postal1=?, postal2=?, address=?, tel=?');
         $stmt->execute(array(
-          0,
+          $last_member_id,
           $name,
           $email,
           $postal1,
@@ -109,6 +130,12 @@ $max = count($cart);
 
         $message .= "送料は無料です。 \n";
         $message .= "--------------------------\n";
+        if ($order === 'order_reg') {
+          $message .= "会員登録が完了致しました。\n";
+          $message .= "次回からメールアドレスとパスワードを入力しログインしてください。\n";
+          $message .= "ご注文が簡単にできる用になります。";
+          $message .= "\n";
+        }
         $message .= "\n";
         $message .= "代金は以下の口座にお振込みください。\n";
         $message .= "おもちゃ銀行 遠い支店 普通口座0000000\n";
@@ -141,6 +168,13 @@ $max = count($cart);
         // セッションをクリアする
         clearSession($_SESSION);
         ?>
+        <p><?php echo $name ?>様</p>
+        <p>ご注文ありがとうございました</p>
+        <p><?php echo $email ?>にメールをお送りしましたのでご確認ください。</p>
+        <p>商品は以下の住所にお送りさせていただきます。</p>
+        <p><?php echo '〒 ' . $postal1 . '-' . $postal2 ?></p>
+        <p><?php echo $address ?></p>
+        <p><?php echo '☎ ' . $tel ?></p>
         <a href="shop_list.php">商品画面へ</a>
       </main>
       <footer class.="footer">
