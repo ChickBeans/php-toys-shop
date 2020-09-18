@@ -80,6 +80,10 @@ html {
   padding: 20px;
 }
 
+.button {
+  display: block;
+}
+
 .button--wrapper {
   width: auto;
   display: -webkit-box;

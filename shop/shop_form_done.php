@@ -95,7 +95,7 @@ $max = count($cart);
 
         // dat_sales_productテーブルに購入情報（商品）を登録する。
         for ($i = 0; $i < $max; $i++) {
-          $stmt = $db->prepare('INSERT INTO dat_sales_product SET sales_id=?, sales_product=?, price=?, quantity=?');
+          $stmt = $db->prepare('INSERT INTO dat_sales_product SET sales_id=?, product_id=?, price=?, quantity=?');
           $stmt->execute(array(
             $last_id,
             $cart[$i],
